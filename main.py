@@ -59,10 +59,12 @@ while var not in '12':
 
             print(q)
 
+            var = '3'
+
         case '2':
             for var in range(1, 7):
                 right = 0
-                while right < 10:
+                while right < 5:
                     text, q = get_text_2(var)
                     for i in text:
                         print(i)
@@ -72,7 +74,7 @@ while var not in '12':
 
                     if ant == q.ant:
                         right += 1
-                        print(f'Верно! Осталось ответить {10 - right} раз.')
+                        print(f'Верно! Осталось ответить {5 - right} раз.')
                     else:
                         right = 0
                         print(f'Не верно! Правильный ответ {q.ant}. Серия начинается заново.')
@@ -85,6 +87,8 @@ while var not in '12':
                 print(i)
 
             print(q)
+
+            var = '3'
 
         case _:
             print('Неизвестное значение...')
