@@ -54,12 +54,11 @@ while var not in '12':
                 input('Уровень пройден! Для продолжения нажмите на enter...')
 
             text, q = get_text_1(6)
-            for i in text:
-                print(i)
 
-            print(q)
+            print('\n'.join(text))
 
-            var = '3'
+            var = 'end'
+            input('Уровень пройден! Для продолжения нажмите на enter...')
 
         case '2':
             for var in range(1, 7):
@@ -82,13 +81,12 @@ while var not in '12':
 
                 input('Уровень пройден! Для продолжения нажмите на enter...')
 
-            text, q = get_text_1(7)
-            for i in text:
-                print(i)
+            text, q = get_text_2(7)
 
-            print(q)
+            print('\n'.join(text))
 
-            var = '3'
+            var = 'end'
+            input('Уровень пройден! Для продолжения нажмите на enter...')
 
         case _:
             print('Неизвестное значение...')
