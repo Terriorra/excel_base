@@ -230,7 +230,7 @@ def max_n_num():
 
     ant = sorted(new_list, reverse=True)[n - 1]
 
-    q = Quest(s, ant)
+    q = Quest(s, str(ant))
 
     return q
 
@@ -251,7 +251,7 @@ def min_n_num():
 
     ant = sorted(new_list, reverse=False)[n - 1]
 
-    q = Quest(s, ant)
+    q = Quest(s, str(ant))
 
     return q
 
@@ -264,7 +264,7 @@ def sum_n_list():
 
     new_list = create_rnd_list()
 
-    n = sample(range(1, len(new_list) // 2), randint(3, 6))
+    n = sample(range(1, len(new_list) - 2), randint(3, 6))
 
     s = '\n'
     s += '\n'.join([str(i) for i in new_list])
@@ -313,7 +313,7 @@ def mean_if(n: int = 1000):
     """
     tabl = create_tabl_school(n)
 
-    my_tabl = tabl.split('\n')[1:]
+    my_tabl = tabl.split('\n')[1:-1]
     first_line = choice(my_tabl).split(';')
 
     var = choice([1, 2, 3, 4])
@@ -382,7 +382,7 @@ def sum_if(n: int = 1000):
     """
     tabl = create_tabl_school(n)
 
-    my_tabl = tabl.split('\n')[1:]
+    my_tabl = tabl.split('\n')[1:-1]
     first_line = choice(my_tabl).split(';')
 
     var = choice([1, 2, 3, 4])
@@ -444,7 +444,7 @@ def count_if(n: int = 1000):
     """
     tabl = create_tabl_school(n)
 
-    my_tabl = tabl.split('\n')[1:]
+    my_tabl = tabl.split('\n')[1:-1]
     first_line = choice(my_tabl).split(';')
 
     var = choice([1, 2, 3, 4])
@@ -588,7 +588,7 @@ def get_text_2(var):
             q = mean_if(100)
 
         case 7:
-            text += about_2[5]
+            text += about_2[5].split('\n')
             q = ''
 
     return text, q
