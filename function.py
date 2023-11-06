@@ -24,6 +24,10 @@ path = resource_path('about_2.txt')
 with open(path, 'r', encoding='utf-8') as f:
     about_2 = f.read().split('\n\n\n')
 
+path = resource_path('about_3.txt')
+with open(path, 'r', encoding='utf-8') as f:
+    about_3 = f.read().split('\n\n\n')
+
 path = resource_path('subject')
 with open(path, 'r', encoding='utf-8') as f:
     subject = f.read().split('\n')
@@ -305,6 +309,30 @@ def create_tabl_school(n: int = 1000):
     return tabl
 
 
+def create_tabl_school_2(n: int = 1000):
+    """
+    В столбце A записан код округа, в котором учится ученик;
+    в столбце B - id ученика,
+    в столбце C - выбранный учеником предмет;
+    в столбце D - тестовый балл по первому тесту
+    в столбце E - тестовый балл по второму тесту
+    :param n: Количество строк
+    :return:
+    """
+
+    a = sample(n * district, n)
+    b = sample(range(10, n * 1000), n)
+    c = sample(n * subject, n)
+    d = [randint(100, 300) for _ in range(n)]
+    e = [randint(100, 300) for _ in range(n)]
+
+    tabl = 'A;B;C;D;E\n'
+    for i, j, k, l, m in zip(a, b, c, d, e):
+        tabl += i + ';' + str(j) + ';' + k + ';' + str(l) + ';' + str(m) + '\n'
+
+    return tabl
+
+
 def mean_if(n: int = 1000):
     """
     Средние значение при условии
@@ -436,13 +464,96 @@ def sum_if(n: int = 1000):
     return q
 
 
-def count_if(n: int = 1000):
+def count_if_n(n: int = 1000):
     """
     Количество значений при условии
     :param n: количество строк в таблице
     :return:
     """
-    tabl = create_tabl_school(n)
+    tabl = create_tabl_school_2(n)
+
+    my_tabl = tabl.split('\n')[1:-1]
+    first_line = choice(my_tabl).split(';')
+
+    var = choice([1, 2, 3, 4])
+    s = 'Найди количество учеников'
+
+    count = 0
+
+    match var:
+        case 1:
+            # Округ
+            var_1 = first_line[0]
+            # Предмет
+            var_2 = first_line[2]
+            s += f' выбравших {var_2} из округа {var_1}.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (var_1 in i) and (var_2 in i):
+                    count += 1
+
+        case 2:
+            # Предмет
+            var_1 = first_line[2]
+            # Балл
+            b = choice([3, 4])
+            var_2 = int(first_line[b]) - 1
+            if b == 3:
+                s += f' набравших по {var_1} больше {var_2} баллов по первому тесту.'
+            else:
+                s += f' набравших по {var_1} больше {var_2} баллов по второму тесту.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_2 < int(i[b])) and (var_1 in i):
+                    count += 1
+
+        case 3:
+            # Округ
+            var_1 = first_line[0]
+            # Балл больше
+            b = choice([3, 4])
+            var_2 = int(first_line[3]) - 1
+            if b == 3:
+                s += f' из округа {var_1} набравших больше {var_2} баллов по первому тесту.'
+            else:
+                s += f' из округа {var_1} набравших больше {var_2} баллов по второму тесту.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_2 < int(i[b])) and (var_1 in i):
+                    count += 1
+
+        case 4:
+            # Предмет
+            var_1 = first_line[2]
+            # Балл меньше
+            b = choice([3, 4])
+            var_2 = int(first_line[b]) + 1
+            if b == 3:
+                s += f' набравших меньше {var_2} баллов за первый тест по {var_1}.'
+            else:
+                s += f' набравших меньше {var_2} баллов за второй тест по {var_1}.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_2 > int(i[b])) and (var_1 in i):
+                    count += 1
+
+    q = Quest(s + '\n\n' + tabl, str(count))
+
+    return q
+
+
+def count_if(n: int = 1000):
+    """
+    Количество значений при нескольких условиях
+    :param n: количество строк в таблице
+    :return:
+    """
+
+    tabl = create_tabl_school_2(n)
 
     my_tabl = tabl.split('\n')[1:-1]
     first_line = choice(my_tabl).split(';')
@@ -498,6 +609,152 @@ def count_if(n: int = 1000):
     return q
 
 
+def mean_if_n(n: int = 1000):
+    """
+    Средние значение при нескольких условиях
+    :param n: количество строк в таблице
+    :return:
+    """
+
+    tabl = create_tabl_school_2(n)
+
+    my_tabl = tabl.split('\n')[1:-1]
+    first_line = choice(my_tabl).split(';')
+
+    var = choice([1, 2])
+    s = 'Найди среднее значение баллов учеников'
+
+    count = 0
+    sum_var = 0
+
+    match var:
+        case 1:
+            # Округ
+            var_1 = first_line[0]
+            # Предмет
+            var_2 = first_line[2]
+
+            b = choice([3, 4])
+            if b == 3:
+                s += f' из округа {var_1} по {var_2} за первый тест.'
+            else:
+                s += f' из округа {var_1} по {var_2} за второй тест.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_1 in i) and (var_2 in i):
+                    count += 1
+                    sum_var += int(i[b])
+
+        case 2:
+            # Предмет
+            var_1 = first_line[2]
+            # Балл больше
+            b = choice([3, 4])
+            var_2 = int(first_line[b]) - 1
+
+            if b == 3:
+                s += f' по первому тесту, выбравших предмет {var_1} и набравших за первый тест больше {var_2} баллов.'
+            else:
+                s += f' по второму тесту, выбравших предмет {var_1} и набравших за второй тест больше {var_2} баллов.'
+
+            for i in my_tabl:
+                i = i.split(';')
+                if len(i) > 1 and (var_1 in i) and (var_2 < int(i[b])):
+                    count += 1
+                    sum_var += int(i[b])
+
+    ant = round_num(sum_var / count)
+
+    q = Quest(s + '\n\n' + tabl, ant)
+
+    return q
+
+
+def two_column(n: int = 1000):
+    """
+    Сумма, минимум, максимум, средние по двум столбцам.
+    :param n:
+    :return:
+    """
+
+    tabl = create_tabl_school_2(n)
+
+    my_tabl = tabl.split('\n')[1:-1]
+    first_line = choice(my_tabl).split(';')
+
+    var = choice([1, 2, 3])
+    s = ''
+
+    ant = ''
+
+    match var:
+        case 1:
+            b = choice([0, 2])
+            var_1 = first_line[b]
+            if b == 2:
+                # Предмет
+                s += f'Найди наименьшую сумму баллов ученика выбравшего предмет {var_1}'
+            else:
+                # Округ
+                s += f'Найди наименьшую сумму баллов ученика из {var_1} округа'
+
+            sum_var = int(first_line[3]) + int(first_line[4])
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_1 in i):
+                    new_sum = int(i[3]) + int(i[4])
+                    sum_var = min([new_sum, sum_var])
+
+            ant = sum_var
+
+        case 2:
+            b = choice([0, 2])
+            var_1 = first_line[b]
+            if b == 2:
+                # Предмет
+                s += f'Найди наибольшую сумму баллов ученика выбравшего предмет {var_1}'
+            else:
+                # Округ
+                s += f'Найди наибольшую сумму баллов ученика из {var_1} округа'
+
+            sum_var = int(first_line[3]) + int(first_line[4])
+
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_1 in i):
+                    new_sum = int(i[3]) + int(i[4])
+                    sum_var = max([new_sum, sum_var])
+
+            ant = sum_var
+
+        case 3:
+            b = choice([0, 2])
+            var_1 = first_line[b]
+            if b == 2:
+                # Предмет
+                s += f'Найди среднее количество баллов за два теста на ученика выбравшего предмет {var_1}'
+            else:
+                # Округ
+                s += f'Найди среднее количество баллов за два теста на ученика из {var_1} округа'
+
+            sum_var = int(first_line[3]) + int(first_line[4])
+            count = 1
+            for i in my_tabl:
+                i = i.split(';')
+                if (len(i) > 1) and (var_1 in i):
+                    new_sum = int(i[3]) + int(i[4])
+                    sum_var += new_sum
+                    count += 1
+
+            ant = round_num(sum_var / count / 2)
+
+    q = Quest(s + '\n\n' + tabl, ant)
+
+    return q
+
+
 def get_text_1(var):
     """
     Создать текст задания первого блока
@@ -522,7 +779,7 @@ def get_text_1(var):
             q = min_val_list()
 
         case 3:
-            # Cчёт
+            # Cчет
             text += print_text(about_1[3].split('\n'), LINE_LEN)
             q = count_num_list()
 
@@ -589,6 +846,37 @@ def get_text_2(var):
 
         case 7:
             text += about_2[5].split('\n')
+            q = ''
+
+    return text, q
+
+
+def get_text_3(var):
+    """
+        Создать текст задания второго блока
+        :param var:
+        :return:
+        """
+
+    os.system("CLS")
+
+    text = print_text(about_3[0].split('\n'), LINE_LEN)
+
+    q = ''
+
+    match var:
+        case 1:
+            # Наибольший
+            q = count_if_n()
+
+        case 2:
+            q = mean_if_n()
+
+        case 3:
+            q = two_column()
+
+        case 7:
+            text += about_3[-1].split('\n')
             q = ''
 
     return text, q
