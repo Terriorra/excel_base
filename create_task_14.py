@@ -831,22 +831,3 @@ def generate_task(n: int = 1000, task_type: int = 1):
             task = Task(tabl, q1, q2, q3)
 
     return task
-
-# Отладка
-#
-# for k in range(1, 6):
-#     for i in range(1000):
-#         new_tabl = generate_task(1000, k)
-#         #print(new_tabl.quest_2.text, new_tabl.quest_2.ans)
-#
-#
-# new_tabl = generate_task(20, 5)
-# # for str_i in new_tabl.tabl:
-# #     print(str_i)
-#
-# for str_i in new_tabl.tabl:
-#     print(';'.join([str(j) for j in str_i]))
-#
-# print(new_tabl.quest_1.text, new_tabl.quest_1.ans)
-# print(new_tabl.quest_2.text, new_tabl.quest_2.ans)
-# print(new_tabl.quest_3.text, new_tabl.quest_3.ans)
