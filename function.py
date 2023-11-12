@@ -5,6 +5,8 @@ from random import choice
 from random import sample
 from random import randint
 
+from create_task_14 import generate_task
+
 sign_hor = '═'
 sign_vert = '║'
 LINE_LEN = 90
@@ -27,6 +29,10 @@ with open(path, 'r', encoding='utf-8') as f:
 path = resource_path('about_3.txt')
 with open(path, 'r', encoding='utf-8') as f:
     about_3 = f.read().split('\n\n\n')
+
+path = resource_path('about_4.txt')
+with open(path, 'r', encoding='utf-8') as f:
+    about_4 = f.read().split('\n\n\n')
 
 path = resource_path('subject')
 with open(path, 'r', encoding='utf-8') as f:
@@ -880,3 +886,20 @@ def get_text_3(var):
             q = ''
 
     return text, q
+
+
+def get_text_4():
+    os.system("CLS")
+
+    text = print_text(about_4[0].split('\n'), LINE_LEN)
+
+    grades = {i:'' for i in range(1, 5)}
+    grade = about_4[1].split('\n')
+    grades[1] = grade[:6]
+    grades[2] = grade[6:12]
+    grades[3] = grade[12:18]
+    grades[4] = grade[18:]
+
+    task = generate_task(1000, task_type=randint(1, 5))
+
+    return text, task, grades

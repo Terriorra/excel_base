@@ -1,6 +1,7 @@
 from function import get_text_1
 from function import get_text_2
 from function import get_text_3
+from function import get_text_4
 
 name = input('Как к тебе обращаться? ')
 s = f'''
@@ -27,15 +28,18 @@ s = f'''
 1. СЧЁТЕСЛИМН
 2. СРЗНАЧЕСЛИМН
 3. Сумма\Минимум\Максимум\Средние по двум столбцам с условиями
+
+Раздел четыре:
+Генерация задания № 14 
 '''
 
 print(s)
 
 var = '0'
 
-while var not in '123':
+while var not in '1234':
 
-    var = input(f'Выбери раздел, {name}. [1/2/3] ').strip()
+    var = input(f'Выбери раздел, {name}. [1/2/3/4] ').strip()
 
     match var:
         case '1':
@@ -122,6 +126,73 @@ while var not in '123':
 
             var = 'end'
             input('Уровень пройден! Для продолжения нажмите на enter...')
+
+        case '4':
+            text, task, grades = get_text_4()
+            for i in text:
+                print(i)
+
+            print()
+            tabl = task.tabl
+            for i in tabl:
+                print(';'.join([str(j) for j in i]))
+
+            ans = 0
+            print('\nОтветьте на вопросы:')
+
+            ant = input(f'{task.quest_1.text}\n').strip()
+            if ant == str(task.quest_1.ans):
+                ans += 1
+                print('Верно!\n')
+            else:
+                print(f'Не верно. Верный ответ: {task.quest_1.ans}\n')
+
+            ant = input(f'{task.quest_2.text}\n').strip()
+            if ant == str(task.quest_2.ans):
+                ans += 1
+                print('Верно!\n')
+            else:
+                print(f'Не верно. Верный ответ: {task.quest_2.ans}\n')
+
+            match ans:
+                case 0:
+                    print('Текущая оценка 1')
+                case 1:
+                    print('Текущая оценка 2')
+                case 2:
+                    print("Текущая оценка 3")
+
+
+            ans_3 = 0
+            print(f'{task.quest_3.text}')
+            for i, a in enumerate(task.quest_3.ans, 1):
+                ant = input(f'Число участников для параметра {i}: ').strip()
+                if ant == str(a):
+                    ans_3 += 1
+                    print('Верно!\n')
+                else:
+                    print(f'Не верно. Верный ответ: {a}\n')
+
+            if ans_3 == i:
+                ans += 1
+
+            match ans:
+                case 0:
+                    print('Текущая оценка 1')
+                case 1:
+                    print('Текущая оценка 2')
+                case 2:
+                    print("Текущая оценка 3")
+                case 3:
+                    print('Текущая оценка 4')
+
+
+            for i in grades[ans + 1]:
+                print(i)
+
+            print('Плюс балл можно получить за демонстрацию диаграммы.')
+
+            var = input('Конец тестирования. ').strip().lower()
 
         case _:
             print('Неизвестное значение...')
